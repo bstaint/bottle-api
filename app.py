@@ -25,10 +25,10 @@ def whois(token, domain):
     if raw: return raw
 
     try:
-        raw, server = get_whois_raw(domain)
-        r.setex(DB_PRE_WHOIS % domain, WHOIS_EXPIRE, raw[0])
+        raw = get_whois_raw(domain)[0]
+        r.setex(DB_PRE_WHOIS % domain, WHOIS_EXPIRE, raw)
         r.incr(DB_PRE_TOKEN % token)
-        return raw[0]
+        return raw
     except WhoisException, e:
         return e
 
